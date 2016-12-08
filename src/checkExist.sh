@@ -1,0 +1,8 @@
+#/bin/sh
+#检查文件是否存在
+
+today=`date +%Y-%m-%d`
+fileName=/home/zhujsong/ETLjob/lock/$today.lock
+if [-f "$fileName" ]; then
+ echo true
+fi
