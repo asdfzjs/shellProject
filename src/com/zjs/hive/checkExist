@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 #检查文件是否存在
 
 today=`date +%Y-%m-%d`

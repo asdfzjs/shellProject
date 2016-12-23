@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+#循环输出时间
 date_begin="2015-09-30"
 date_end="2015-11-18"
 
