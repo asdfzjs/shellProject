@@ -1,0 +1,3 @@
+#!/bin/bash -e
+ll | awk {'if ($7 == 27){print $9}'} 
+rm -rf `ll | awk {'if($6=="12ÔÂ"){print $9}'} | xargs`

@@ -1,0 +1,4 @@
+#!/bin/bash -e
+today=`date +%Y-%m-%d`
+yesterday=`date -d " -1 day $date_begin" +%Y-%m-%d`
+echo $today  $yesterday
