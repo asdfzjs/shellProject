@@ -1,0 +1,17 @@
+#!/bin/bash -e
+#first use 00 date
+date_begin="2017-01-04"
+date_end="2017-01-10"
+
+while [[ $date_begin < $date_end ]]
+do
+	date_begin=`date -d "+1 day $date_begin" +%Y%m%d`
+	echo $date_begin"00"
+	for i in $(seq 23)
+	do
+	   if [ $i -lt 10 ]; then
+	       i="0"$i
+	   fi
+	   echo $date_begin$i
+	done
+done
