@@ -1,0 +1,21 @@
+#!/bin/bash -e
+date_begin=`date -d'-2 hour' +%Y%m%d%H`
+data_time=$date_begin
+echo $date_begin
+#step one get data from growingio
+java -jar /home/zhujisong/GrowingIo/GrowingIO-0.0.1-SNAPSHOT-jar-with-dependencies.jar  $data_time
+#step two put data to hdfs,need to check if file exists,if not exists,echo 0
+
+if [ -f "/home/zhujisong/GrowingIo/data/action_tag/$data_time/part-00000" ]; then  
+	/opt/hadoop/hadoop-2.7.3/bin/hadoop fs -put /home/zhujisong/GrowingIo/data/action/$data_time/part-00000$data_time   hdfs://ns1/user/hive/warehouse/staging.db/stg_growing_action/
+	/opt/hadoop/hadoop-2.7.3/bin/hadoop fs -put /home/zhujisong/GrowingIo/data/action_tag/$data_time/part-00000$data_time   hdfs://ns1/user/hive/warehouse/staging.db/stg_growing_action_tag/
+	/opt/hadoop/hadoop-2.7.3/bin/hadoop fs -put /home/zhujisong/GrowingIo/data/page/$data_time/part-00000$data_time   hdfs://ns1/user/hive/warehouse/staging.db/stg_growing_page/
+	/opt/hadoop/hadoop-2.7.3/bin/hadoop fs -put /home/zhujisong/GrowingIo/data/visit/$data_time/part-00000$data_time   hdfs://ns1/user/hive/warehouse/staging.db/stg_growing_visit/
+	/opt/hive/apache-hive-2.1.0-bin/bin/hive -e "msck repair table staging.stg_growing_action"
+	/opt/hive/apache-hive-2.1.0-bin/bin/hive -e "msck repair table staging.stg_growing_action_tag"
+	/opt/hive/apache-hive-2.1.0-bin/bin/hive -e "msck repair table staging.stg_growing_page"
+	/opt/hive/apache-hive-2.1.0-bin/bin/hive -e "msck repair table staging.stg_growing_visit"
+	touch /home/zhujisong/GrowingIo/success/$data_time
+else
+   echo "0"$data_time"data has not get"
+fi
